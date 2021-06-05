@@ -1,0 +1,12 @@
+#!/bin/bash
+
+reporoot=$(git rev-parse --show-toplevel)
+excludefile="$reporoot/.git/info/exclude"
+if [ -f "$excludefile" ]
+then
+    for f in "$@"
+    do
+        echo "$f" >> "$excludefile"
+    done
+    bat "$excludefile"
+fi
