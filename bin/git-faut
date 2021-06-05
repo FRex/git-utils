@@ -1,6 +1,6 @@
 #!/bin/bash
 #faut = fuzzy checkout
-sha1=$(git log --format='%H %s' "$@" | fzf --preview='git show --color=always {1}' | cut -f1 -d' ')
+sha1=$(git log --format='%H %s' "$@" | fzf --no-sort --preview='git show --color=always {1}' | cut -f1 -d' ')
 if [ $? -eq 0 ]
 then
     git checkout "$sha1"
