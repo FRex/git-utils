@@ -2,11 +2,14 @@
 
 reporoot=$(git rev-parse --show-toplevel)
 excludefile="$reporoot/.git/info/exclude"
-if [ -f "$excludefile" ]
-then
-    for f in "$@"
-    do
-        echo "$f" >> "$excludefile"
+if [ -f "$excludefile" ]; then
+    for f in "$@"; do
+        echo "$f" >>"$excludefile"
     done
-    bat "$excludefile"
+    if command -v bat >/dev/null; then
+        bat "$excludefile"
+    else
+        echo -e "File: $excludefile\n"
+        cat -n "$excludefile"
+    fi
 fi
