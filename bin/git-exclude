@@ -3,13 +3,17 @@
 reporoot=$(git rev-parse --show-toplevel)
 excludefile="$reporoot/.git/info/exclude"
 if [ -f "$excludefile" ]; then
-    for f in "$@"; do
-        echo "$f" >>"$excludefile"
-    done
-    if command -v bat >/dev/null; then
-        bat "$excludefile"
+    if [ $# -eq 1 ] && [ "$1" == "--vim" ]; then
+        vim "$excludefile"
     else
-        echo -e "File: $excludefile\n"
-        cat -n "$excludefile"
+        for f in "$@"; do
+            echo "$f" >>"$excludefile"
+        done
+        if command -v bat >/dev/null; then
+            bat "$excludefile"
+        else
+            echo -e "File: $excludefile\n"
+            cat -n "$excludefile"
+        fi
     fi
 fi
